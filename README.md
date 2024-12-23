@@ -8,3 +8,7 @@
 <img src="assets/img1.jpg" style="width: 255px" align=left>
 <img src="assets/geometric.gif" style="width: 200px" align=center>
 </p>
+
+
+## Release
+- [2024/12/23]🔥🔥🔥 We create the slow perception repo! The weights, train data, and benchmarks will be released within this week. The paper can be found [here]() temporarily and we will submit it to arxiv this week.

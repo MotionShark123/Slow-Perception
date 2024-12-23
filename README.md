@@ -11,4 +11,4 @@
 
 
 ## Release
-- [2024/12/23]🔥🔥🔥 We create the slow perception repo! The weights, train data, and benchmarks will be released within this week. The paper can be found [here]() temporarily and we will submit it to arxiv this week.
+- [2024/12/23]🔥🔥🔥 We create the slow perception repo! The weights, train data, and benchmarks will be released within this week. The paper can be found [here]() temporarily and we will submit it to arxiv.

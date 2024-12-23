@@ -1,4 +1,4 @@
-<h3><a href="">Slow Perception:Let's Perceive Vision Elements Step by Step for Geometric Figure Parsing</a></h3>
+<h3><a href="">Slow Perception: Parse Geometric Figures Step-by-step</a></h3>
 
 
 [Haoran Wei*](https://scholar.google.com/citations?user=J4naK0MAAAAJ&hl=en), Yinyang You*, Yumeng Li, Jia Wang, [Liang Zhao](https://scholar.google.com.hk/citations?user=uJJ5zskAAAAJ&hl=zh-CN&oi=sra),  [Jianjian Sun](https://scholar.google.com/citations?user=MVZrGkYAAAAJ&hl=en), [Zheng Ge](https://joker316701882.github.io/), [Xiangyu Zhang](https://scholar.google.com/citations?user=yuB-cfoAAAAJ&hl=en)

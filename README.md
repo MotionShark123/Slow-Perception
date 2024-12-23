@@ -10,7 +10,7 @@
 
 
 
-&emsp;&emsp;&emsp;&emsp; ***Accurately copying is the first step to visual o1!***
+&emsp;&emsp;&emsp;&emsp; ***Accurate copying is the first step to visual o1!***
 
 
 

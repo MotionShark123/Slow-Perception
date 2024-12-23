@@ -5,6 +5,6 @@
 
 
 <p align="left">
-<img src="assets/img1.jpg" style="width: 300px" align=left>
+<img src="assets/img1.jpg" style="width: 250px" align=left>
 <img src="assets/geometric.gif" style="width: 200px" align=center>
 </p>

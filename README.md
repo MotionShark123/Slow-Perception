@@ -94,7 +94,7 @@ python3 calculate_f1.py
 ```
 If you want to input a single image:
 ```Shell
-python3 SP/demo/run_jihe_parsing.py  --model-name SP-1/weights/4ruler/  --image-file results/img1.jpg
+python3 SP/demo/run_jihe_parsing.py  --model-name SP-1/weights/4ruler/  --image-file results/jihe_demo.jpg
 ```
 
 ## Train

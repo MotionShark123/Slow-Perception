@@ -221,6 +221,9 @@ def eval_model(args):
         for file in tqdm(files):
 
             image = load_image(file)
+            width, height = image.size
+            if width != height:
+                image = process_image(image)
             image_1 = image.copy()
             # image_1 = image_1.resize((1024, 1024))
             image_tensor = image_processor(image)

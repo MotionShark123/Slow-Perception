@@ -3,7 +3,7 @@
 <a href="https://drive.google.com/drive/folders/16N6ptKENnyvAuJq7ZF6BtMWiqUsNTobc?usp=sharing"><img src="https://img.shields.io/badge/weights-red"></a>
 <a href="https://github.com/Ucas-HaoranWei/Slow-Perception/blob/main/Slow_perception.pdf"><img src="https://img.shields.io/badge/Paper-PDF-orange"></a> 
 
-[Haoran Wei*](https://scholar.google.com/citations?user=J4naK0MAAAAJ&hl=en), Yinyang You*, Yumeng Li, Jia Wang, [Liang Zhao](https://scholar.google.com.hk/citations?user=uJJ5zskAAAAJ&hl=zh-CN&oi=sra),  [Jianjian Sun](https://scholar.google.com/citations?user=MVZrGkYAAAAJ&hl=en), [Zheng Ge](https://joker316701882.github.io/), [Xiangyu Zhang](https://scholar.google.com/citations?user=yuB-cfoAAAAJ&hl=en)
+[Haoran Wei*](https://scholar.google.com/citations?user=J4naK0MAAAAJ&hl=en), Youyang Yin*, Yumeng Li, Jia Wang, [Liang Zhao](https://scholar.google.com.hk/citations?user=uJJ5zskAAAAJ&hl=zh-CN&oi=sra),  [Jianjian Sun](https://scholar.google.com/citations?user=MVZrGkYAAAAJ&hl=en), [Zheng Ge](https://joker316701882.github.io/), [Xiangyu Zhang](https://scholar.google.com/citations?user=yuB-cfoAAAAJ&hl=en)
 
 <p align="left">
 <img src="assets/img1.jpg" style="width: 255px" align=left>

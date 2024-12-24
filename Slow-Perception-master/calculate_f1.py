@@ -3,12 +3,9 @@ import numpy as np
 import re
 
 def sort_list_by_jpg(data):
-    # 定义一个函数来提取jpg文件名中的数字
     def extract_number(item):
-        filename = list(item.keys())[0]  # 获取字典的第一个（也是唯一的）键
-        return int(re.search(r'\d+', filename).group())  # 提取文件名中的数字
-
-    # 使用提取的数字作为排序键
+        filename = list(item.keys())[0]  
+        return int(re.search(r'\d+', filename).group())  
     return sorted(data, key=extract_number)
 
 
@@ -19,28 +16,23 @@ def calculate_length(seg):
     return np.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 def get_slope(p1, p2):
-    """计算两个点之间的斜率。"""
-    if p1[0] == p2[0]:  # 处理垂直线
+    if p1[0] == p2[0]:
         return float('inf')
     return (p2[1] - p1[1]) / (p2[0] - p1[0])
 
 def are_equal(a, b, tolerance=1e-4):
-    """检查两个浮点数是否相等，考虑容差。"""
     return abs(a - b) < tolerance
 
 
 def merge_lines(segments):
-    """合并相同直线的线段，取最远的两个端点。"""
     lines = {}
 
     for (start, end) in segments:
-        # 计算斜率
+
         slope = get_slope(start, end)
 
-        # 计算直线的截距 (y = mx + b)，使用点斜式
         intercept = start[1] - slope * start[0] if slope != float('inf') else start[0]
 
-        # 检查现有线段的斜率和截距是否与当前线段相同
         line_key = None
         for key in lines.keys():
             existing_slope, existing_intercept = key
@@ -51,7 +43,6 @@ def merge_lines(segments):
         if line_key is None:
             lines[(slope, intercept)] = (start, end)
         else:
-            # 更新最远的两个端点
             current_start, current_end = lines[line_key]
             new_start = min(current_start, start, end)
             new_end = max(current_end, start, end)
@@ -61,28 +52,24 @@ def merge_lines(segments):
 
 def calculate_f_score(pred_lines, gt_lines, iou_threshold):
     def calculate_iou(line1, line2):
-        # 计算水平方向的IoU
         x_min1, x_max1 = min(line1[0][0], line1[1][0]), max(line1[0][0], line1[1][0])
         x_min2, x_max2 = min(line2[0][0], line2[1][0]), max(line2[0][0], line2[1][0])
         x_overlap = max(0, min(x_max1, x_max2) - max(x_min1, x_min2))
         x_union = max(x_max1, x_max2) - min(x_min1, x_min2)
         iou_x = x_overlap / x_union if x_union > 0 else 0
 
-        # 计算垂直方向的IoU
         y_min1, y_max1 = min(line1[0][1], line1[1][1]), max(line1[0][1], line1[1][1])
         y_min2, y_max2 = min(line2[0][1], line2[1][1]), max(line2[0][1], line2[1][1])
         y_overlap = max(0, min(y_max1, y_max2) - max(y_min1, y_min2))
         y_union = max(y_max1, y_max2) - min(y_min1, y_min2)
         iou_y = y_overlap / y_union if y_union > 0 else 0
 
-        # 返回水平和垂直IoU的平均值
         return (iou_x + iou_y) / 2
 
     true_positives = 0
     false_positives = 0
     false_negatives = 0
 
-    # 标记已匹配的真实线段
     matched_gt = set()
 
     # new_lines = merge_lines(pred[key])
@@ -132,21 +119,17 @@ def split_short_long(predictions, ground_truths, length_threshold):
 
 
 def print_table(f1, f1_s, f1_l, p, p_s, p_l, r, r_s, r_l):
-    # 定义列宽和表格宽度
     col_width = 10
     table_width = col_width * 4 + 5
 
-    # 打印表头
     print("+" + "-" * table_width + "+")
     print(f"|{'Metric':^{col_width}}|{'All':^{col_width}}|{'Short':^{col_width}}|{'Long':^{col_width}}|")
     print("+" + "-" * table_width + "+")
 
-    # 打印数据行
     print(f"|{'F1-score':^{col_width}}|{f1:^{col_width}.4f}|{f1_s:^{col_width}.4f}|{f1_l:^{col_width}.4f}|")
     print(f"|{'Precision':^{col_width}}|{p:^{col_width}.4f}|{p_s:^{col_width}.4f}|{p_l:^{col_width}.4f}|")
     print(f"|{'Recall':^{col_width}}|{r:^{col_width}.4f}|{r_s:^{col_width}.4f}|{r_l:^{col_width}.4f}|")
 
-    # 打印表尾
     print("+" + "-" * table_width + "+")
 
 
@@ -157,7 +140,7 @@ def print_table(f1, f1_s, f1_l, p, p_s, p_l, r, r_s, r_l):
 if __name__ == "__main__" :
 
     # sorted_data = sort_list_by_jpg(data)
-    gts = sort_list_by_jpg(json.load(open('SP-1/benchmarks/gt_120.json')))
+    gts = sort_list_by_jpg(json.load(open('SP-1/benchmarks/gt_360.json')))
 
     preds = sort_list_by_jpg(json.load(open('results/slow_perception.json')))
 

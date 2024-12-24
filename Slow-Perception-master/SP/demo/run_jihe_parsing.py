@@ -210,7 +210,7 @@ def eval_model(args):
                 ax.add_artist(circle)
                 # ax2.add_artist(circle)
 
-        plt.savefig('results/demo.png', bbox_inches='tight', pad_inches=0.1)
+        plt.savefig('demo/demo.png', bbox_inches='tight', pad_inches=0.1)
         # plt.savefig('/data/show/figure.png', bbox_inches='tight', pad_inches=0.1)
 
 
@@ -225,7 +225,7 @@ def eval_model(args):
             # image_1 = image_1.resize((1024, 1024))
             image_tensor = image_processor(image)
 
-            out_path = 'results/' + file.split('/')[-1]
+            out_path = 'demo/' + file.split('/')[-1]
             image_tensor_1 = image_processor_high(image_1)
 
             out_dict = {}

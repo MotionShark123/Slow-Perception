@@ -18,7 +18,7 @@
 
 
 ## Release
-- [2024/12/24]🔥🔥🔥 We release the slow perception! The paper can be found [here](https://github.com/Ucas-HaoranWei/Slow-Perception/blob/main/Slow_perception.pdf) temporarily and we will submit it to arxiv soon.
+- [2024/12/24]🔥🔥🔥 We release the slow perception! The paper can be found [here](https://github.com/Ucas-HaoranWei/Slow-Perception/blob/main/Slow_perception.pdf) temporarily and we will submit it to arxiv after we complete the appendix part.
 
 
 

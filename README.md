@@ -12,7 +12,7 @@
 
 
 
-&emsp;&emsp;&emsp;&emsp; ***Strong perception is the first step to visual o1!***
+&emsp;&emsp;&emsp;&emsp; ***Accurate copying is the first step to visual o1!***
 
 
 

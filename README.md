@@ -1,7 +1,7 @@
 <h3><a href="">Slow Perception:Let's Perceive Geometric Figures Step-by-step</a></h3>
 <a href="https://drive.google.com/drive/folders/16N6ptKENnyvAuJq7ZF6BtMWiqUsNTobc?usp=sharing"><img src="https://img.shields.io/badge/data-yellow"></a>
 <a href="https://drive.google.com/drive/folders/16N6ptKENnyvAuJq7ZF6BtMWiqUsNTobc?usp=sharing"><img src="https://img.shields.io/badge/weights-red"></a>
-<a href="https://github.com/Ucas-HaoranWei/Slow-Perception/blob/main/Slow_perception.pdf"><img src="https://img.shields.io/badge/Paper-PDF-orange"></a> 
+<a href="https://arxiv.org/abs/2412.20631"><img src="https://img.shields.io/badge/Paper-PDF-orange"></a> 
 
 [Haoran Wei*](https://scholar.google.com/citations?user=J4naK0MAAAAJ&hl=en), Youyang Yin*, Yumeng Li, Jia Wang, [Liang Zhao](https://scholar.google.com.hk/citations?user=uJJ5zskAAAAJ&hl=zh-CN&oi=sra),  [Jianjian Sun](https://scholar.google.com/citations?user=MVZrGkYAAAAJ&hl=en), [Zheng Ge](https://joker316701882.github.io/), [Xiangyu Zhang](https://scholar.google.com/citations?user=yuB-cfoAAAAJ&hl=en)
 
@@ -18,6 +18,7 @@
 
 
 ## Release
+- [2024/12/31]🔥🔥🔥 The paper can be found in [Arxiv](https://arxiv.org/abs/2412.20631).
 - [2024/12/24]🔥🔥🔥 We release the slow perception! The paper can be found [here](https://github.com/Ucas-HaoranWei/Slow-Perception/blob/main/Slow_perception.pdf) temporarily and we will submit it to arxiv after we completing the appendix part.
 
 
@@ -137,6 +138,22 @@ Don't hesitate to contact me by email, weihaoran18@mails.ucas.ac.cn, if you have
 - [GOT-OCR2.0](https://github.com/Ucas-HaoranWei/GOT-OCR2.0): the codebase we built upon!
 
 ## Citation
-Coming soon!
+```bibtex
+@misc{wei2024slowperceptionletsperceive,
+      title={Slow Perception: Let's Perceive Geometric Figures Step-by-step}, 
+      author={Haoran Wei and Youyang Yin and Yumeng Li and Jia Wang and Liang Zhao and Jianjian Sun and Zheng Ge and Xiangyu Zhang},
+      year={2024},
+      eprint={2412.20631},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2412.20631}, 
+}
+@article{wei2024general,
+  title={General OCR Theory: Towards OCR-2.0 via a Unified End-to-end Model},
+  author={Wei, Haoran and Liu, Chenglong and Chen, Jinyue and Wang, Jia and Kong, Lingyu and Xu, Yanming and Ge, Zheng and Zhao, Liang and Sun, Jianjian and Peng, Yuang and others},
+  journal={arXiv preprint arXiv:2409.01704},
+  year={2024}
+}
+
 
 

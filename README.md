@@ -139,14 +139,11 @@ Don't hesitate to contact me by email, weihaoran18@mails.ucas.ac.cn, if you have
 
 ## Citation
 ```bibtex
-@misc{wei2024slowperceptionletsperceive,
-      title={Slow Perception: Let's Perceive Geometric Figures Step-by-step}, 
-      author={Haoran Wei and Youyang Yin and Yumeng Li and Jia Wang and Liang Zhao and Jianjian Sun and Zheng Ge and Xiangyu Zhang},
-      year={2024},
-      eprint={2412.20631},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2412.20631}, 
+@article{wei2024slow,
+  title={Slow Perception: Let's Perceive Geometric Figures Step-by-step},
+  author={Wei, Haoran and Yin, Youyang and Li, Yumeng and Wang, Jia and Zhao, Liang and Sun, Jianjian and Ge, Zheng and Zhang, Xiangyu},
+  journal={arXiv preprint arXiv:2412.20631},
+  year={2024}
 }
 @article{wei2024general,
   title={General OCR Theory: Towards OCR-2.0 via a Unified End-to-end Model},

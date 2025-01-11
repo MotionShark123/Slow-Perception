@@ -2,6 +2,7 @@
 <a href="https://drive.google.com/drive/folders/16N6ptKENnyvAuJq7ZF6BtMWiqUsNTobc?usp=sharing"><img src="https://img.shields.io/badge/data-yellow"></a>
 <a href="https://drive.google.com/drive/folders/16N6ptKENnyvAuJq7ZF6BtMWiqUsNTobc?usp=sharing"><img src="https://img.shields.io/badge/weights-red"></a>
 <a href="https://arxiv.org/abs/2412.20631"><img src="https://img.shields.io/badge/Paper-PDF-orange"></a> 
+<a href="https://zhuanlan.zhihu.com/p/17315205259"><img src="https://img.shields.io/badge/zhihu-blue"></a> 
 
 [Haoran Wei*](https://scholar.google.com/citations?user=J4naK0MAAAAJ&hl=en), Youyang Yin*, Yumeng Li, Jia Wang, [Liang Zhao](https://scholar.google.com.hk/citations?user=uJJ5zskAAAAJ&hl=zh-CN&oi=sra),  [Jianjian Sun](https://scholar.google.com/citations?user=MVZrGkYAAAAJ&hl=en), [Zheng Ge](https://joker316701882.github.io/), [Xiangyu Zhang](https://scholar.google.com/citations?user=yuB-cfoAAAAJ&hl=en)
 

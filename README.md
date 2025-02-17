@@ -19,6 +19,7 @@
 
 
 ## Release
+- [2024/2/17]🔥🔥🔥 We release the rending [code](https://github.com/Ucas-HaoranWei/Slow-Perception/tree/main/Slow-Perception-master/rendering). Run *python quad_gen.py*.
 - [2024/12/31]🔥🔥🔥 The paper can be found in [Arxiv](https://arxiv.org/abs/2412.20631).
 - [2024/12/24]🔥🔥🔥 We release the slow perception! The paper can be found [here](https://github.com/Ucas-HaoranWei/Slow-Perception/blob/main/Slow_perception.pdf) temporarily and we will submit it to arxiv after we completing the appendix part.
 

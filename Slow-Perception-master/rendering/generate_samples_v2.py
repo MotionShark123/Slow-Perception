@@ -20,7 +20,7 @@ from quad_fold import drawer as fold_drawer
 # import standalone file handling functions as fallback
 from gen import edit_tex_file, compile_tex_to_pdf, convert_pdf_to_png
 
-def generate_specialized_samples(num_samples=10, output_dir="generated_samples"):
+def generate_specialized_samples(num_samples=1, output_dir="generated_samples"):
     """
     generate geometry samples using specialized quad generators
     

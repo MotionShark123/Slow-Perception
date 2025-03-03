@@ -44,6 +44,45 @@ def parse_tikz_coordinates(content):
     
     return lines
 
+def extract_node_labels(content):
+    """
+    Extract node labels and their coordinates from the content
+    
+    args:
+        content: string containing tikz commands
+        
+    returns:
+        dictionary mapping coordinates to node labels
+    """
+    # Find all node commands
+    node_commands = re.findall(r'\\node \[.*?\] at \(([-\d.]+),([-\d.]+)\) \{(.*?)\};', content)
+    
+    # Create a dictionary mapping coordinates to labels
+    coord_to_label = {}
+    for x, y, label in node_commands:
+        coord_to_label[(float(x), float(y))] = label.strip()
+    
+    return coord_to_label
+
+def find_closest_node(coord, coord_to_label, threshold=0.01):
+    """
+    Find the closest node label to the given coordinate
+    
+    args:
+        coord: (x, y) coordinate
+        coord_to_label: dictionary mapping coordinates to node labels
+        threshold: maximum distance to consider a match
+        
+    returns:
+        node label or None if no close node is found
+    """
+    x, y = coord
+    for (node_x, node_y), label in coord_to_label.items():
+        distance = ((node_x - x)**2 + (node_y - y)**2)**0.5
+        if distance < threshold:
+            return label
+    return None
+
 def create_line_mask(start, end, image_size, line_width=3):
     """
     create a binary mask for a single line
@@ -111,6 +150,9 @@ def generate_line_masks(metadata_path, output_dir="mask_samples"):
         sample_id = sample['id']
         content = sample['content']
         
+        # Extract node labels and their coordinates
+        coord_to_label = extract_node_labels(content)
+        
         # find all draw commands
         draw_commands = re.findall(r'(\\draw .*?;)', content)
 
@@ -131,16 +173,47 @@ def generate_line_masks(metadata_path, output_dir="mask_samples"):
                 
             # For circle commands, just change the color as before
             if 'circle' in cmd:
-                # create modified content where only this circle is red
-                modified_content = content.replace(cmd, cmd.replace('black', 'red'))
+                # Extract circle center and radius
+                circle_match = re.search(r'\(([-\d.]+),([-\d.]+)\) circle \(([-\d.]+)\)', cmd)
+                if circle_match:
+                    center_x, center_y, radius = map(float, circle_match.groups())
+                    center_coord = (center_x, center_y)
+                    
+                    # Find the center node label if it exists
+                    center_label = find_closest_node(center_coord, coord_to_label)
+                    
+                    # Create a simple highlight info for this circle
+                    highlight_info = {
+                        "type": "circle",
+                        "center": {"x": center_x, "y": center_y},
+                        "radius": radius
+                    }
+                    
+                    if center_label:
+                        highlight_info["center_label"] = center_label
                 
-                # make sure other draw commands stay black
+                # Create modified content where only this circle is red
+                # Since circle commands might not have 'black' explicitly, we need to handle it differently
+                if 'black' in cmd:
+                    modified_cmd = cmd.replace('black', 'red')
+                else:
+                    # If 'black' is not in the command, we need to insert the color
+                    modified_cmd = cmd.replace('\\draw ', '\\draw [red] ')
+                
+                modified_content = content.replace(cmd, modified_cmd)
+                
+                # Make sure other draw commands stay black
                 for other_cmd in draw_commands:
                     if other_cmd != cmd and 'node' not in other_cmd:
-                        modified_content = modified_content.replace(other_cmd, other_cmd.replace('red', 'black'))
+                        if 'red' in other_cmd:
+                            if '[red]' in other_cmd:
+                                other_modified = other_cmd.replace('[red]', '[black]')
+                            else:
+                                other_modified = other_cmd.replace('red', 'black')
+                            modified_content = modified_content.replace(other_cmd, other_modified)
                 
                 # Process the modified content
-                process_modified_content(modified_content, sample_id, line_idx, output_dir, indv_samples_path, masks_path)
+                process_modified_content(modified_content, sample_id, line_idx, output_dir, indv_samples_path, masks_path, highlight_info)
                 line_idx += 1
             else:
                 # For line/polygon commands, identify individual edges
@@ -155,6 +228,20 @@ def generate_line_masks(metadata_path, output_dir="mask_samples"):
                         # Get current vertex and next vertex (cycle back to first for the last edge)
                         current_vertex = vertices[i]
                         next_vertex = vertices[(i+1) % len(vertices)]
+                        
+                        # Find labels for the vertices if they exist
+                        current_label = find_closest_node((float(current_vertex[0]), float(current_vertex[1])), coord_to_label)
+                        next_label = find_closest_node((float(next_vertex[0]), float(next_vertex[1])), coord_to_label)
+                        
+                        # Create highlight info for this edge
+                        highlight_info = {
+                            "type": "edge",
+                            "start": {"x": float(current_vertex[0]), "y": float(current_vertex[1])},
+                            "end": {"x": float(next_vertex[0]), "y": float(next_vertex[1])}
+                        }
+                        
+                        if current_label and next_label:
+                            highlight_info["edge_name"] = f"line {current_label}{next_label}"
                         
                         # Create a copy of the original command
                         edge_cmd = cmd
@@ -179,13 +266,13 @@ def generate_line_masks(metadata_path, output_dir="mask_samples"):
                             edge_content = edge_content + edge_draw
                         
                         # Process the modified content
-                        process_modified_content(edge_content, sample_id, line_idx, output_dir, indv_samples_path, masks_path)
+                        process_modified_content(edge_content, sample_id, line_idx, output_dir, indv_samples_path, masks_path, highlight_info)
                         line_idx += 1
         
         # create verification overlay with all masks
         create_overlay_visualization(sample, output_dir, masks_path, overlays_path)
 
-def process_modified_content(modified_content, sample_id, line_idx, output_dir, indv_samples_path, masks_path):
+def process_modified_content(modified_content, sample_id, line_idx, output_dir, indv_samples_path, masks_path, highlight_info=None):
     """
     Process modified content to generate masks
     
@@ -196,6 +283,7 @@ def process_modified_content(modified_content, sample_id, line_idx, output_dir, 
         output_dir: output directory
         indv_samples_path: path for individual samples
         masks_path: path for masks
+        highlight_info: dictionary containing information about the highlighted element
     """
     # save modified tex content
     tex_path = os.path.join(output_dir, f"mask_{sample_id}_{line_idx}.tex")
@@ -232,6 +320,16 @@ def process_modified_content(modified_content, sample_id, line_idx, output_dir, 
     # save binary mask
     mask_path = os.path.join(masks_path, f"sample_{sample_id}_line_{line_idx}.png")
     cv2.imwrite(mask_path, binary_mask)
+    
+    # save highlight information to a JSON file if provided
+    if highlight_info:
+        # Add sample and line identifiers to the info
+        highlight_info["sample_id"] = sample_id
+        highlight_info["line_idx"] = line_idx
+        
+        info_path = os.path.join(masks_path, f"sample_{sample_id}_line_{line_idx}_info.json")
+        with open(info_path, 'w') as f:
+            json.dump(highlight_info, f, indent=2)
 
 def create_overlay_visualization(sample, output_dir, masks_path, overlays_path):
     """

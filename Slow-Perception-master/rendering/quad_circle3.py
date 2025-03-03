@@ -146,7 +146,7 @@ class drawer:
 \\node [{location2}, {color3}, font=\scriptsize] at ({x2},{y2}) {{{label2}}};
 \\node [{location3}, {color4}, font=\scriptsize] at ({x3},{y3}) {{{label3}}};
 \\node [{location4}, {color5}, font=\scriptsize] at ({x4},{y4}) {{{label4}}};
-\\draw ({x0}, {y0}) circle ({r});
+\\draw [thick, {color1}] ({x0}, {y0}) circle ({r});
 \\node [{location}, {color6}, font=\scriptsize] at ({x0}, {y0}) {{{label5}}};
 \\node [{location5}, {color7}, font=\scriptsize] at ({x5}, {y5}) {{{label6}}};
 \\node [{location6}, {color8}, font=\scriptsize] at ({x6}, {y6}) {{{label7}}};
@@ -168,7 +168,7 @@ class drawer:
 \\node [{location2}, {color3}, font=\scriptsize] at ({x2},{y2}) {{{label2}}};
 \\node [{location3}, {color4}, font=\scriptsize] at ({x3},{y3}) {{{label3}}};
 \\node [{location4}, {color5}, font=\scriptsize] at ({x4},{y4}) {{{label4}}};
-\\draw ({x0}, {y0}) circle ({r});
+\\draw [thick, {color1}] ({x0}, {y0}) circle ({r});
 \\node [{location}, {color6}, font=\scriptsize] at ({x0}, {y0}) {{{label5}}};
 \\node [{location5}, {color7}, font=\scriptsize] at ({x5}, {y5}) {{{label6}}};
 \\node [{location6}, {color8}, font=\scriptsize] at ({x6}, {y6}) {{{label7}}};
@@ -190,7 +190,8 @@ class drawer:
         return random.choices(self.shapes, weights=[0.8, 0, 0.1, 0, 0.1, 0, 0, 0], k=1)[0];
 
     def get_color(self):
-        return random.choices(self.colors, weights=[0.96, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005], k=1)[0]
+        return random.choices(self.colors, weights=[1, 0, 0, 0, 0, 0, 0, 0, 0], k=1)[0]
+        # return random.choices(self.colors, weights=[0.96, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005], k=1)[0]
 
     def generate_quadrilateral_with_incircle(self):
         while True:

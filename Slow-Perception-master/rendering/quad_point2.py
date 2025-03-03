@@ -158,7 +158,8 @@ class drawer:
         return 'Square'
     
     def get_color(self):
-        return random.choices(self.colors, weights=[0.96, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005], k=1)[0]
+        return random.choices(self.colors, weights=[1, 0, 0, 0, 0, 0, 0, 0, 0], k=1)[0]
+        # return random.choices(self.colors, weights=[0.96, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005], k=1)[0]
 
     def generate_quadrilateral_with_incircle(self):
         while True:

@@ -121,57 +121,117 @@ def generate_line_masks(metadata_path, output_dir="mask_samples"):
         os.makedirs(masks_path, exist_ok=True)
         os.makedirs(overlays_path, exist_ok=True)
         os.makedirs(indv_samples_path, exist_ok=True)
+        
         # process each draw command individually
-        for line_idx, cmd in enumerate(draw_commands):
+        line_idx = 0
+        for cmd_idx, cmd in enumerate(draw_commands):
             # skip node commands
             if 'node' in cmd:
                 continue
                 
-            # create modified content where only this line is red
-            modified_content = content.replace(cmd, cmd.replace('black', 'red'))
-            
-            # make sure other draw commands stay black
-            for other_cmd in draw_commands:
-                if other_cmd != cmd and 'node' not in other_cmd:
-                    modified_content = modified_content.replace(other_cmd, other_cmd.replace('red', 'black'))
-            
-            # save modified tex content
-            tex_path = os.path.join(output_dir, f"mask_{sample_id}_{line_idx}.tex")
-            edit_tex_file(tex_path, modified_content)
-            
-            # compile to pdf
-            compile_tex_to_pdf(tex_path)
-            os.system(f"mv mask_{sample_id}_{line_idx}.* {output_dir}/")
-            # convert to png
-            pdf_path = tex_path.replace('.tex', '.pdf')
-            convert_pdf_to_png(pdf_path, output_dir, f"{sample_id}_{line_idx}", prefix="mask_")
-            files = [f"mask_{sample_id}_{line_idx}.pdf", f"mask_{sample_id}_{line_idx}.aux", f"mask_{sample_id}_{line_idx}.tex", f"mask_{sample_id}_{line_idx}.log"]
-            for f in files:
-                fpath = os.path.join(output_dir, f)
-                os.system(f"rm {fpath}")
-
-            # create binary mask using color thresholding
-            img = cv2.imread(os.path.join(output_dir, f"mask_page_{sample_id}_{line_idx}.png"))
-            if img is None:
-                print(f"warning: failed to read image for sample {sample_id}, line {line_idx}")
-                continue
-            else:
-                os.system(f"mv {output_dir}/mask_page_{sample_id}_{line_idx}.png {indv_samples_path}/")
+            # For circle commands, just change the color as before
+            if 'circle' in cmd:
+                # create modified content where only this circle is red
+                modified_content = content.replace(cmd, cmd.replace('black', 'red'))
                 
-            # extract red components (BGR format)
-            red_mask = img[:,:,2] - img[:,:,1]//2 - img[:,:,0]//2
-            
-            # threshold to get binary mask
-            _, binary_mask = cv2.threshold(red_mask, 50, 255, cv2.THRESH_BINARY)
-            
-            # save binary mask
-            mask_path = os.path.join(masks_path, f"sample_{sample_id}_line_{line_idx}.png")
-            cv2.imwrite(mask_path, binary_mask)
-            
-            # clean up temporary files
+                # make sure other draw commands stay black
+                for other_cmd in draw_commands:
+                    if other_cmd != cmd and 'node' not in other_cmd:
+                        modified_content = modified_content.replace(other_cmd, other_cmd.replace('red', 'black'))
+                
+                # Process the modified content
+                process_modified_content(modified_content, sample_id, line_idx, output_dir, indv_samples_path, masks_path)
+                line_idx += 1
+            else:
+                # For line/polygon commands, identify individual edges
+                # Extract the vertices from the command
+                vertices_pattern = r'\(([-\d.]+),([-\d.]+)\)'
+                vertices = re.findall(vertices_pattern, cmd)
+                
+                # Check if we have a polygon with multiple edges
+                if len(vertices) >= 2:
+                    # For each edge in the polygon
+                    for i in range(len(vertices)):
+                        # Get current vertex and next vertex (cycle back to first for the last edge)
+                        current_vertex = vertices[i]
+                        next_vertex = vertices[(i+1) % len(vertices)]
+                        
+                        # Create a copy of the original command
+                        edge_cmd = cmd
+                        
+                        # Replace the original command with one where only this edge is red
+                        # We'll create a new draw command for each edge
+                        edge_content = content
+                        
+                        # Remove the original command from the content
+                        edge_content = edge_content.replace(cmd, "")
+                        
+                        # Create individual draw commands for each edge
+                        for j in range(len(vertices)):
+                            v1 = vertices[j]
+                            v2 = vertices[(j+1) % len(vertices)]
+                            
+                            # Determine color for this edge
+                            color = "red" if j == i else "black"
+                            
+                            # Create a draw command for this edge
+                            edge_draw = f"\\draw [thick, {color}] ({v1[0]},{v1[1]}) -- ({v2[0]},{v2[1]});\n"
+                            edge_content = edge_content + edge_draw
+                        
+                        # Process the modified content
+                        process_modified_content(edge_content, sample_id, line_idx, output_dir, indv_samples_path, masks_path)
+                        line_idx += 1
         
         # create verification overlay with all masks
         create_overlay_visualization(sample, output_dir, masks_path, overlays_path)
+
+def process_modified_content(modified_content, sample_id, line_idx, output_dir, indv_samples_path, masks_path):
+    """
+    Process modified content to generate masks
+    
+    args:
+        modified_content: modified tex content
+        sample_id: sample identifier
+        line_idx: line index
+        output_dir: output directory
+        indv_samples_path: path for individual samples
+        masks_path: path for masks
+    """
+    # save modified tex content
+    tex_path = os.path.join(output_dir, f"mask_{sample_id}_{line_idx}.tex")
+    edit_tex_file(tex_path, modified_content)
+    
+    # compile to pdf
+    compile_tex_to_pdf(tex_path)
+    os.system(f"mv mask_{sample_id}_{line_idx}.* {output_dir}/")
+    
+    # convert to png
+    pdf_path = tex_path.replace('.tex', '.pdf')
+    convert_pdf_to_png(pdf_path, output_dir, f"{sample_id}_{line_idx}", prefix="mask_")
+    
+    # clean up temporary files
+    files = [f"mask_{sample_id}_{line_idx}.pdf", f"mask_{sample_id}_{line_idx}.aux", f"mask_{sample_id}_{line_idx}.tex", f"mask_{sample_id}_{line_idx}.log"]
+    for f in files:
+        fpath = os.path.join(output_dir, f)
+        os.system(f"rm {fpath}")
+
+    # create binary mask using color thresholding
+    img = cv2.imread(os.path.join(output_dir, f"mask_page_{sample_id}_{line_idx}.png"))
+    if img is None:
+        print(f"warning: failed to read image for sample {sample_id}, line {line_idx}")
+        return
+    else:
+        os.system(f"mv {output_dir}/mask_page_{sample_id}_{line_idx}.png {indv_samples_path}/")
+        
+    # extract red components (BGR format)
+    red_mask = img[:,:,2] - img[:,:,1]//2 - img[:,:,0]//2
+    
+    # threshold to get binary mask
+    _, binary_mask = cv2.threshold(red_mask, 50, 255, cv2.THRESH_BINARY)
+    
+    # save binary mask
+    mask_path = os.path.join(masks_path, f"sample_{sample_id}_line_{line_idx}.png")
+    cv2.imwrite(mask_path, binary_mask)
 
 def create_overlay_visualization(sample, output_dir, masks_path, overlays_path):
     """

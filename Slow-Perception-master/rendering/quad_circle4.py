@@ -55,7 +55,7 @@ class drawer:
 \\node [{location3}, {color4}, font=\scriptsize] at ({x3},{y3}) {{{label3}}};
 \\node [{location4}, {color5}, font=\scriptsize] at ({x4},{y4}) {{{label4}}};
 \\node [{location5}, {color1}, font=\scriptsize] at ({x5},{y5}) {{{label5}}};
-\\draw [line width={width1}pt] ({x0}, {y0}) circle ({r});
+\\draw [line width={width1}pt, {color1}] ({x0}, {y0}) circle ({r});
 \\draw [line width={width2}pt, {color1}] ({x1},{y1}) -- ({x2},{y2}) -- ({x3},{y3}) -- ({x4},{y4}) -- cycle;
 \\draw [line width={width2}pt, {color1}] ({x1},{y1}) -- ({x3},{y3});
 \\draw [line width={width2}pt, {color1}] ({x2},{y2}) -- ({x4},{y4});

@@ -66,7 +66,8 @@ class drawer:
         return random.choices(self.shapes, weights=[0.5, 0.15, 0.1, 0.1, 0.05, 0.045, 0.045, 0.01], k=1)[0];
 
     def get_color(self):
-        return random.choices(self.colors, weights=[0.96, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005], k=1)[0]
+        return random.choices(self.colors, weights=[1, 0, 0, 0, 0, 0, 0, 0, 0], k=1)[0]
+        # return random.choices(self.colors, weights=[0.96, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005], k=1)[0]
 
     def generate_parallelogram(self):
         x1, y1 = random.uniform(-10, 10), random.uniform(-10, 10)

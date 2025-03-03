@@ -35,16 +35,16 @@ def generate_specialized_samples(num_samples=10, output_dir="generated_samples")
     # available generators with their descriptions
     generators = {
         # 'angle': angle_drawer,      # generates angle-related problems
-        # 'circle1': circle1_drawer,  # generates circle-related problems type 1
+        'circle1': circle1_drawer,  # generates circle-related problems type 1
         # 'circle2': circle2_drawer,  # generates circle-related problems type 2
         # 'circle3': circle3_drawer,  # generates circle-related problems type 3
         # 'circle4': circle4_drawer,  # generates circle-related problems type 4
-        'line1': line1_drawer,     # generates line-related problems type 1
-        'line2': line2_drawer,     # generates line-related problems type 2
-        'point': point_drawer,     # generates point-related problems
-        'point2': point2_drawer,   # generates point-related problems type 2
-        'point3': point3_drawer,   # generates point-related problems type 3
-        'fold': fold_drawer,       # generates folding-related problems
+        # 'line1': line1_drawer,     # generates line-related problems type 1
+        # 'line2': line2_drawer,     # generates line-related problems type 2
+        # 'point': point_drawer,     # generates point-related problems
+        # 'point2': point2_drawer,   # generates point-related problems type 2
+        # 'point3': point3_drawer,   # generates point-related problems type 3
+        # 'fold': fold_drawer,       # generates folding-related problems
     }
     
     samples = []
@@ -66,7 +66,7 @@ def generate_specialized_samples(num_samples=10, output_dir="generated_samples")
                 curr_drawer.edit_tex_file(tex_path, curr_drawer.json_content)
             else:
                 edit_tex_file(tex_path, curr_drawer.json_content)
-            
+            # import pdb;pdb.set_trace()
             # compile to pdf
             if hasattr(curr_drawer, 'compile_tex_to_pdf'):
                 curr_drawer.compile_tex_to_pdf(tex_path)

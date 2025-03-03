@@ -20,6 +20,6 @@ def edit_tex_file(new_tex_path, json_content):
 def compile_tex_to_pdf(tex_path):
     os.system(f'xelatex -interaction=batchmode {tex_path} > curr.log')
 
-def convert_pdf_to_png(pdf_path, output_folder, index):
+def convert_pdf_to_png(pdf_path, output_folder, index, prefix=""):
     images = convert_from_path(pdf_path, dpi=256)
-    images[0].save(f'{output_folder}/page_{index}.png', 'PNG')
+    images[0].save(f'{output_folder}/{prefix}page_{index}.png', 'PNG')
